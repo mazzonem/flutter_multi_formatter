@@ -43,8 +43,19 @@ void main() {
     expect(formattedNumber, "0.00");
   });
 
-  test('should correctly place  marker', () {
+  test('should correctly place marker', () {
     final currentNumber = "0";
+    final inputNumber = "";
+    final inputFormattedNumber = MoneyInputFormatter().formatEditUpdate(
+        TextEditingValue(
+            text: currentNumber, selection: TextSelection.collapsed(offset: 1), composing: TextRange.empty),
+        TextEditingValue(text: inputNumber, selection: TextSelection.collapsed(offset: 0), composing: TextRange.empty));
+    expect(inputFormattedNumber.text, "0.00");
+    expect(inputFormattedNumber.selection, TextSelection.collapsed(offset: 1));
+  });
+
+  test('should correctly place marker2', () {
+    final currentNumber = "0.";
     final inputNumber = "";
     final inputFormattedNumber = MoneyInputFormatter().formatEditUpdate(
         TextEditingValue(

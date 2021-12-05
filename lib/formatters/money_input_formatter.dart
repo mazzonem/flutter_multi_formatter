@@ -48,8 +48,6 @@ class MoneySymbols {
 }
 
 class MoneyInputFormatter extends TextInputFormatter {
-  static final RegExp _wrongLeadingZeroMatcher = RegExp(r'^0\d{1}');
-
   final ThousandSeparator thousandSeparator;
   final int mantissaLength;
   final String leadingSymbol;
@@ -84,27 +82,7 @@ class MoneyInputFormatter extends TextInputFormatter {
     this.maxTextLength,
   });
 
-  /// [textEditingValue] is used to change
-  /// selection in case there is a wrong leading zero
-  String? _removeWrongLeadingZero(
-    String value,
-    TextEditingValue textEditingValue,
-  ) {
-    var tempValue = value;
-    final leadingTotalLength = _leadingLength + _paddingLength;
-    if (leadingTotalLength != 0 && tempValue.length >= leadingTotalLength) {
-      final curLeading = tempValue.substring(0, leadingTotalLength);
-      tempValue = tempValue.substring(leadingTotalLength);
-      final match = _wrongLeadingZeroMatcher.matchAsPrefix(tempValue);
-      if (match != null) {
-        /// The very process of removing the leading zero
-        tempValue = tempValue.substring(1, tempValue.length);
-        return '$curLeading$tempValue';
-      }
-    }
-
-    return null;
-  }
+  String _removeWrongLeadingZero(String value) => value.replaceAll(new RegExp(r'^0+(?=.)'), '');
 
   @override
   TextEditingValue formatEditUpdate(
@@ -133,14 +111,11 @@ class MoneyInputFormatter extends TextInputFormatter {
     /// If a value starts with something like 02,000.50$
     /// the zero, obviously, must be removed
     int numZeroesRemovedAtStringStart = 0;
-    var newRemoveZeroResult = _removeWrongLeadingZero(
-      newText,
-      newValue,
-    );
-    if (newRemoveZeroResult != null) {
-      newText = newRemoveZeroResult;
+    var newRemoveZeroResult = _removeWrongLeadingZero(newText);
+    if (newText.length > newRemoveZeroResult.length) {
       numZeroesRemovedAtStringStart = 1;
     }
+    newText = newRemoveZeroResult;
 
     var usesCommaForMantissa = _usesCommasForMantissa();
     if (usesCommaForMantissa) {
@@ -306,6 +281,12 @@ class MoneyInputFormatter extends TextInputFormatter {
       }
 
       var preparedText = _prepareDotsAndCommas(newText);
+
+      // Case where removing all value put indicator in wrong place
+      if (oldValue.text == '0' && newValue.text == '' && preparedText == '0.00') {
+        selection = TextSelection.collapsed(offset: 1);
+      }
+
       return TextEditingValue(
         selection: selection,
         text: preparedText,
@@ -324,9 +305,7 @@ class MoneyInputFormatter extends TextInputFormatter {
     /// the number is different add this number to the selection offset
     var oldSelectionEnd = oldValue.selection.end;
     TextEditingValue value = oldSelectionEnd > -1 ? oldValue : newValue;
-    String oldSubstrBeforeSelection = oldSelectionEnd > -1
-        ? value.text.substring(0, value.selection.end)
-        : '';
+    String oldSubstrBeforeSelection = oldSelectionEnd > -1 ? value.text.substring(0, value.selection.end) : '';
     int numThousandSeparatorsInOldSub = _countSymbolsInString(
       oldSubstrBeforeSelection,
       ',',
@@ -365,8 +344,7 @@ class MoneyInputFormatter extends TextInputFormatter {
       ',',
     );
 
-    int numAddedSeparators =
-        numThousandSeparatorsInNewSub - numThousandSeparatorsInOldSub;
+    int numAddedSeparators = numThousandSeparatorsInNewSub - numThousandSeparatorsInOldSub;
 
     if (thousandSeparator == ThousandSeparator.None) {
       /// FIXME: dirty hack. I will probably find a better solution.
@@ -407,8 +385,7 @@ class MoneyInputFormatter extends TextInputFormatter {
         mantissaIndex,
       );
       if (selectionIndex < mantissaIndex) {
-        if (wholePartSubstring == '0' ||
-            wholePartSubstring == '${leadingSymbol}0') {
+        if (wholePartSubstring == '0' || wholePartSubstring == '${leadingSymbol}0') {
           /// if the whole part contains 0 only, then we need
           /// to bring the selection after the
           /// fractional part right away
@@ -447,23 +424,19 @@ class MoneyInputFormatter extends TextInputFormatter {
     return value == 0.0;
   }
 
-  int get _paddingLength {
-    return useSymbolPadding ? 1 : 0;
-  }
+  int get _paddingLength => useSymbolPadding ? 1 : 0;
 
   int get _leadingLength => leadingSymbol.length;
+
   int get _trailingLength => trailingSymbol.length;
 
   String _stripRepeatingSeparators(String input) {
-    return input
-        .replaceAll(_repeatingDots, '.')
-        .replaceAll(_repeatingCommas, ',')
-        .replaceAll(_repeatingSpaces, ' ');
+    return input.replaceAll(_repeatingDots, '.').replaceAll(_repeatingCommas, ',').replaceAll(_repeatingSpaces, ' ');
   }
 
   bool _usesCommasForMantissa() {
-    var value = (thousandSeparator == ThousandSeparator.Period ||
-        thousandSeparator == ThousandSeparator.SpaceAndCommaMantissa);
+    var value =
+        (thousandSeparator == ThousandSeparator.Period || thousandSeparator == ThousandSeparator.SpaceAndCommaMantissa);
     return value;
   }
 
@@ -577,8 +550,7 @@ String toCurrencyString(
     if (isNegative) {
       var containsMinus = parsed.toString().contains('-');
       if (!containsMinus) {
-        value =
-            '-${parsed.toStringAsFixed(mantissaLength).replaceFirst('0.', '.')}';
+        value = '-${parsed.toStringAsFixed(mantissaLength).replaceFirst('0.', '.')}';
       } else {
         value = '${parsed.toStringAsFixed(mantissaLength)}';
       }
@@ -643,9 +615,7 @@ String toCurrencyString(
     }
   }
 
-  mantissa = noShortening
-      ? _postProcessMantissa(mantissaList.join(''), mantissaLength)
-      : '';
+  mantissa = noShortening ? _postProcessMantissa(mantissaList.join(''), mantissaLength) : '';
   var maxIndex = split.length - 1;
   if (mantissaSeparatorIndex > 0 && noShortening) {
     maxIndex = mantissaSeparatorIndex - 1;
@@ -663,9 +633,7 @@ String toCurrencyString(
       } else {
         if (value.length >= minShorteningLength) {
           if (!isDigit(split[i])) digitCounter = 1;
-          if (digitCounter % 3 == 1 &&
-              digitCounter > 1 &&
-              i > (isNegative ? 1 : 0)) {
+          if (digitCounter % 3 == 1 && digitCounter > 1 && i > (isNegative ? 1 : 0)) {
             list.add(tSeparator);
           }
         }

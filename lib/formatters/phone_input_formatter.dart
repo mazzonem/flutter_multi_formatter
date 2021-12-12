@@ -556,7 +556,10 @@ class PhoneCodes {
       'country': 'Australia',
       'internalPhoneCode': '61',
       'countryCode': 'AU',
-      'phoneMask': '+00 000 000 0000',
+      'phoneMask': '+00 0000 0000',
+      'altMasks': [
+        '+00 0 0000 0000',
+      ],
     },
     {
       'country': 'Austria',
@@ -1637,7 +1640,10 @@ class PhoneCodes {
       'country': 'United Arab Emirates',
       'internalPhoneCode': '971',
       'countryCode': 'AE',
-      'phoneMask': '+000 0 0000000',
+      'phoneMask': '+000 00 000000',
+      'altMasks': [
+        '+000 00 0000000',
+      ],
     },
     {
       'country': 'United Kingdom',

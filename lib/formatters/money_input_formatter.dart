@@ -283,7 +283,7 @@ class MoneyInputFormatter extends TextInputFormatter {
       var preparedText = _prepareDotsAndCommas(newText);
 
       // Case where removing all value put indicator in wrong place
-      if (oldValue.selection.baseOffset == 1 && newValue.selection.baseOffset == 0 && preparedText == '0.00') {
+      if (oldValue.selection.extentOffset == 1 && newValue.selection.extentOffset == 0 && preparedText == '0.00') {
         selection = TextSelection.collapsed(offset: 1);
       }
 

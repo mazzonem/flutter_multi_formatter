@@ -3,9 +3,12 @@ import 'package:example/pages/credit_card_format_page.dart';
 import 'package:example/pages/masked_formatter_page.dart';
 import 'package:example/pages/money_format_page.dart';
 import 'package:example/pages/phone_format_page.dart';
+import 'package:example/pages/pos_format_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+
+import 'pages/pinyin_formatter_page.dart';
 
 typedef PageBuilder = Widget Function();
 
@@ -68,8 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       child: Container(
         height: 50,
-        // ignore: deprecated_member_use
-        child: RaisedButton(
+        child: MaterialButton(
           textColor: Colors.white,
           color: color,
           onPressed: () {
@@ -136,6 +138,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 iconData: Icons.attach_money,
                 label: 'Bitcoin Validator',
                 pageBuilder: () => BitcoinValidatorPage(),
+              ),
+              _buildButton(
+                color: Colors.purple,
+                iconData: Icons.money_off,
+                label: 'Pos Formatter',
+                pageBuilder: () => PosFormatPage(),
+              ),
+              _buildButton(
+                color: Colors.red,
+                iconData: Icons.abc,
+                label: 'Chinese Pinyin Formatter',
+                pageBuilder: () => PinyinFormatterPage(),
               ),
             ],
           ),

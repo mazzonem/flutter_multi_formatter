@@ -1,3 +1,190 @@
+## [2.12.8]
+- Merged https://github.com/caseyryan/flutter_multi_formatter/pull/155 /// Fix decimal separator issue for countries using "," as decimal separator #155
+- https://github.com/caseyryan/flutter_multi_formatter/pull/153 /// Add Won sign
+- https://github.com/caseyryan/flutter_multi_formatter/pull/152 /// New mask for Germany
+## [2.12.4]
+- Added one more UZ_CARD format and HUMO according to this thread https://github.com/caseyryan/flutter_multi_formatter/issues/150
+## [2.12.3]
+- Added toStringAsSmartRound() to double extension
+- Re-Fixed a problem with incorrect rounding if mantissa == 0
+## [2.12.2]
+- Removed BTC from the list of fiat currencies
+## [2.12.1]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/136 Error Range start 5 is out of text of length 1 #136
+
+## [2.12.0]
+- Updated SKD restrictions
+- formatAsCardNumber now also tries to format invalid cards
+- Added `toPhoneNumber()`, `toCardNumber()`, `isValidCardNumber()` string extensions
+## [2.11.16]
+- Added DoNothing clause
+## [2.11.15]
+- Added PhoneCodes.removeCountryCode method which simply remove a country code from a phone
+- PhoneCodes.getCountryDataByPhone now accepts phones with a leading plus
+## [2.11.14]
+- Fixed Luhn algorithm
+## [2.11.12]
+- Updated README
+- Added this https://github.com/caseyryan/flutter_multi_formatter/issues/137
+## [2.11.11]
+- Merged https://github.com/caseyryan/flutter_multi_formatter/pull/142
+## [2.11.10]
+- Completely changed the logic of Unfocuser widget since the previous one 
+doesn't work anymore
+## [2.11.9]
+Fixed Czech phone mask
+https://github.com/caseyryan/flutter_multi_formatter/issues/141
+## [2.11.8]
+Merged https://github.com/caseyryan/flutter_multi_formatter/pull/140 
+adding isForce parameter to getAllCountryCodes
+## [2.11.7]
+- Fixed missing Luhn algo check in isCardNumberValid function 
+## [2.11.6]
+Potential fix https://github.com/caseyryan/flutter_multi_formatter/issues/114
+## [2.11.5]
+Added Luhn algorithm to validate card numbers
+## [2.11.4]
+Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/131
+Added new card system https://github.com/caseyryan/flutter_multi_formatter/issues/109
+- Fixed a bug with incorrect decimal point detection when mantissa length is 0
+## [2.11.2]
+- Merged this pull request https://github.com/caseyryan/flutter_multi_formatter/pull/132
+## [2.11.1]
+- Correct mask for Congo number https://github.com/caseyryan/flutter_multi_formatter/pull/127
+## [2.11.0]
+- CountryDropdown now only selects initialCountryData instead of phone code
+because there are cases when different countries share the same phone code 
+and we still need to tell them apart
+## [2.10.9]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/123
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/116
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/122 by adding triggerOnCountrySelectedInitially param to CountryDropdown
+## [2.10.5]
+- CountryDropdown can now be filtered. If you need it to show only a 
+predefined list of countries. Just pass "filter" parameter like this 
+```child: CountryDropdown(
+        printCountryName: true,
+        initialPhoneCode: '7',
+        filter: PhoneCodes.findCountryDatasByCountryCodes(
+        countryIsoCodes: [
+            'RU',
+            'BR',
+            'DE',
+        ],
+        ),
+        onCountrySelected: (PhoneCountryData countryData) {
+        setState(() {
+            _initialCountryData = countryData;
+        });
+        },
+    ) 
+```
+## [2.10.4]
+- Unfocuser now has isEnabled parameter so it can be easily disabled when it's 
+not necessage e.g. on the web
+## [2.10.3]
+- CountryDropdown now does not have initialCountryCode parameter but uses initialPhoneCode instead, because some countries might have a few phone codes and we need to determin which one of them should be used
+## [2.10.2]
+- Fixed a problem with incorrect card system detection
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/113
+## [2.10.1]
+- A few fixes to PinyinUtils
+## [2.10.0]
+- Merged https://github.com/caseyryan/flutter_multi_formatter/pull/112
+## [2.9.14]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/111
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/110
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/108
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/107
+## [2.9.11]
+- Added promptTonesForPinyin() static function to PinyinUtils. 
+It can give you a list of its vowels with all possible tones
+## [2.9.10]
+- Added di pinyin to HanziUtils
+## [2.9.9]
+- Cleared some prints
+## [2.9.8]
+- Fixed a bug when pinyin formatter removed all characters that didn't match valid syllables
+## [2.9.7]
+- Fixed a period at the end if mantissa length is 0 https://github.com/caseyryan/flutter_multi_formatter/issues/106
+## [2.9.6]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/105
+## [2.9.5]
+- Added hsk levels to HanziUtils
+## [2.9.4]
+- Fixed a problem when pinyin splitter didn't work if there's only one syllable provided
+## [2.9.3]
+- More fixes to pinyin utils
+## [2.9.2]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/104
+## [2.9.1]
+- Fixed crashes in PinyinUtils if the provided string is empty
+## [2.9.0]
+- Added more pinyin utils + HanziUtils
+- Added to utility methods for currencies isCryptoCurrency(String currencyId) and isFiatCurrency(String currencyId)
+## [2.8.8]
+- One more minor fix for PinyinUtils
+## [2.8.7]
+- Fixed Pakistan number mask https://github.com/caseyryan/flutter_multi_formatter/issues/103
+## [2.8.6]
+- Fixed PinyinUtils.simplifyPinyin() it could brake on pinyins 
+with the same letters coming in a row like bùdéérzhī 
+## [2.8.5]
+- Cleaned up some prints
+## [2.8.4]
+- Advanced Pinyin splitter. It does not depend on regular expressions anymore
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/100
+instead it uses a list of real syllables thus works much better
+it can also detect a syllable tone
+## [2.8.2]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/97
+## [2.8.1]
+- Added a utility method PinyinUtils.simplifyPinyin();
+## [2.8.0]
+- Introducing PinyinFormatter for Chinese language 
+## [2.7.6]
+- PhoneCountryData now has toMap() method, that converts it into a hash map. 
+This might be useful e.g. for json encoders/revivers 
+## [2.7.5]
+- Fixed a critical bug with CreditCardExpirationInputFormatter https://github.com/caseyryan/flutter_multi_formatter/issues/96
+## [2.7.4]
+- Removed "borderRadius" parameter from CountryDropdown to make it compatible with some older Flutter versions
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/92
+## [2.7.2]
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/93
+## [2.7.1]
+- Added "printCountryName" option to CountryDropdown
+## [2.7.0]
+- Added a possibility to add a pre-defined country code for phone formatter
+See example to know how to use it. And added a new dropdown type CountryDropdown
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/91
+- https://github.com/caseyryan/flutter_multi_formatter/issues/89
+## [2.6.2]
+- Merged https://github.com/caseyryan/flutter_multi_formatter/pull/88
+## [2.6.1]
+- Fixed currency input formatter empty value error https://github.com/caseyryan/flutter_multi_formatter/issues/87
+## [2.6.0]
+- Made it possible to enter a leading plus https://github.com/caseyryan/flutter_multi_formatter/issues/85
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/80
+- Fixed https://github.com/caseyryan/flutter_multi_formatter/issues/86
+- Deprecated MoneyInputFormatter in favor of a more reliable new CurrencyInputFormatter
+## [2.5.8]
+- Added a MasterCard 52* credit card support
+## [2.5.7]
+- Added a support for Diners Club cards starting with 30
+## [2.5.6]
+- Mastercard 222* support
+## [2.5.5]
+- Fixed Iraq phone number https://github.com/caseyryan/flutter_multi_formatter/pull/82
+## [2.5.4]
+- Added more card systems support
+- CreditCardCvvInputFormatter now accepts ```isAmericaExpress``` value
+ if it's true, it will accept 4 digits, else 3 https://github.com/caseyryan/flutter_multi_formatter/issues/76
+- Merged flutter lint changes https://github.com/caseyryan/flutter_multi_formatter/pull/81
+- Rewritten MaskedInputFormatter. Now it's more robust and correct https://github.com/caseyryan/flutter_multi_formatter/issues/73
+## [2.5.1]
+- New PosInputFormatter. Thanks to [SimoneBressan](https://github.com/SimoneBressan) for this contribution 
+- Fixed the issue with CreditCardExpirationDateFormatter https://github.com/caseyryan/flutter_multi_formatter/issues/70
 ## [2.4.4]
 - https://github.com/caseyryan/flutter_multi_formatter/issues/68 fixed a typo in README section
 - Added alternative mask for Australean phone numbers

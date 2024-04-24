@@ -1,10 +1,10 @@
 name: flutter_multi_formatter
 description: A package of formatters for international phone numbers, credit / debit cards and a masked formatter
-version: 2.4.4
+version: 2.12.8
 homepage: https://github.com/caseyryan/flutter_multi_formatter
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.19.0 <4.0.0"
   flutter: ">=2.0.0"
 
 dependencies:
@@ -20,7 +20,6 @@ dev_dependencies:
 
 # flutter pub publish
 # To format every file in directory use:
-# dartfmt -w . 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -28,9 +27,8 @@ dev_dependencies:
 flutter:
 
   # To add assets to your package, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+   - flags/png/
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

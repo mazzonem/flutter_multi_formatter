@@ -9,9 +9,13 @@ class CreditCardFormatPage extends StatefulWidget {
 class _CreditCardFormatPageState extends State<CreditCardFormatPage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  CardSystemData? _cardSystemData;
+
   Widget _getText(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 15.0,
+      ),
       child: Text(text),
     );
   }
@@ -30,6 +34,7 @@ class _CreditCardFormatPageState extends State<CreditCardFormatPage> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _getText(
                       'This form allows you to easily type a credit / debit card data'),
@@ -68,11 +73,27 @@ class _CreditCardFormatPageState extends State<CreditCardFormatPage> {
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      CreditCardNumberInputFormatter(),
+                      CreditCardNumberInputFormatter(
+                        onCardSystemSelected: (CardSystemData? cardSystemData) {
+                          setState(() {
+                            _cardSystemData = cardSystemData;
+                          });
+                        },
+                      ),
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                    ),
+                    child: Text(
+                      _cardSystemData?.system ?? '',
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
                   _getText(
-                      'Valid through\n (this formatter won\'t let you type the "month" part value larger than 12)'),
+                    'Valid through\n (this formatter won\'t let you type the "month" part value larger than 12)',
+                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -103,7 +124,9 @@ class _CreditCardFormatPageState extends State<CreditCardFormatPage> {
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: [
-                      CreditCardCvcInputFormatter(),
+                      CreditCardCvcInputFormatter(
+                        isAmericanExpress: false,
+                      ),
                     ],
                   ),
                 ],

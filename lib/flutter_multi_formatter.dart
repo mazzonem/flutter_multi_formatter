@@ -26,9 +26,11 @@ THE SOFTWARE.
 
 library flutter_multi_formatter;
 
+export 'extensions/exports.dart';
 export 'formatters/credit_card_cvc_input_formatter.dart';
 export 'formatters/credit_card_expiration_input_formatter.dart';
 export 'formatters/credit_card_number_input_formatter.dart';
+export 'formatters/currency_input_formatter.dart';
 export 'formatters/formatter_extension_methods.dart';
 export 'formatters/formatter_utils.dart';
 export 'formatters/masked_input_formatter.dart';
@@ -36,7 +38,10 @@ export 'formatters/money_input_enums.dart';
 export 'formatters/money_input_formatter.dart';
 export 'formatters/phone_input_enums.dart';
 export 'formatters/phone_input_formatter.dart';
+export 'formatters/pinyin_formatter.dart';
+export 'formatters/pos_input_formatter.dart';
 export 'utils/bitcoin_validator/bitcoin_validator.dart';
 export 'utils/bitcoin_validator/bitcoin_wallet_details.dart';
 export 'utils/enum_utils.dart';
 export 'utils/unfocuser.dart';
+export 'widgets/country_dropdown.dart';
